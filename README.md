@@ -2,15 +2,15 @@
 
 Бесплатный бэкенд для форм со встроенной защитой от спама
 
-## ✨ Возможности
-- ✅ Отправка форм через API
-- ✅ Защита от спама (rate limiting + honeypot)
-- ✅ Fastify сервер на TypeScript
-- ✅ Self-hosted или облачный хостинг
-- ✅ PostgreSQL + Redis
-- ✅ Docker для простого деплоя
+## Возможности
+- Отправка форм через API
+- Защита от спама (rate limiting + honeypot)
+- Fastify сервер на TypeScript
+- Self-hosted или облачный хостинг
+- PostgreSQL + Redis
+- Docker для простого деплоя
 
-## 🚀 Быстрый старт
+## Быстрый старт
 ```bash
 git clone https://github.com/FreeFormAPI/FreeFormAPI
 cd FreeFormAPI/packages/backend
@@ -42,4 +42,5 @@ docker-compose -f docker-compose.prod.yml up -d
 ```
 ## Поддержка
 GitHub Issues: https://github.com/FreeFormAPI/FreeFormAPI/issues
+
 Сайт: freeformapi.ru (скоро)

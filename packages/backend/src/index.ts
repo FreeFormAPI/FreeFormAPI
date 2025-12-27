@@ -2,9 +2,25 @@ import Fastify from 'fastify';
 import { Pool } from 'pg';
 import { z } from 'zod';
 import Redis from 'ioredis';
+import dotenv from 'dotenv';
+
+// Загружаем .env файл
+dotenv.config();
 
 // ====================== КОНФИГУРАЦИЯ ======================
 const CONFIG = {
+  DB: {
+    HOST: process.env.DB_HOST || 'localhost',
+    PORT: parseInt(process.env.DB_PORT || '5432'),
+    NAME: process.env.DB_NAME || 'freeformapi',
+    USER: process.env.DB_USER || 'developer',
+    PASSWORD: process.env.DB_PASSWORD || 'password', // из .env
+  },
+  REDIS: {
+    HOST: process.env.REDIS_HOST || 'localhost',
+    PORT: parseInt(process.env.REDIS_PORT || '6379'),
+    PASSWORD: process.env.REDIS_PASSWORD || 'password', // из .env
+  },
   RATE_LIMIT: {
     WINDOW_MS: 60 * 60 * 1000, // 1 час в миллисекундах
     MAX_REQUESTS: 10, // максимум 10 запросов в час с IP
@@ -17,20 +33,20 @@ const CONFIG = {
 
 // PostgreSQL
 const pool = new Pool({
-  host: 'localhost',
-  port: 5432,
-  database: 'freeformapi',
-  user: 'developer',
-  password: 'password',
+  host: CONFIG.DB.HOST,
+  port: CONFIG.DB.PORT,
+  database: CONFIG.DB.NAME,
+  user: CONFIG.DB.USER,
+  password: CONFIG.DB.PASSWORD,
   max: 20,
   idleTimeoutMillis: 30000,
 });
 
 // Redis для rate limiting
 const redis = new Redis({
-  host: 'localhost',
-  port: 6379,
-  password: 'password',
+  host: CONFIG.REDIS.HOST,
+  port: CONFIG.REDIS.PORT,
+  password: CONFIG.REDIS.PASSWORD,
   retryStrategy: (times) => {
     const delay = Math.min(times * 50, 2000);
     console.log(`⚠️ Redis reconnect attempt ${times}, delay ${delay}ms`);

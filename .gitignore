@@ -6,10 +6,8 @@ yarn-error.log*
 
 # Environment
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+docker/.env
+packages/backend/.env
 
 # Runtime data
 *.pid

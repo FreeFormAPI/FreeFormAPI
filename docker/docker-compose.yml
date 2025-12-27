@@ -5,9 +5,9 @@ services:
     image: postgres:18.1-alpine
     container_name: freeformapi_postgres
     environment:
-      POSTGRES_DB: freeformapi
-      POSTGRES_USER: developer
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${DB_NAME:-freeformapi}
+      POSTGRES_USER: ${DB_USER:-developer}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
     ports:
       - "5432:5432"
@@ -16,7 +16,7 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U developer -d freeformapi"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-developer} -d freeformapi"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -26,7 +26,7 @@ services:
     container_name: freeformapi_redis
     command: >
       redis-server
-      --requirepass password
+      --requirepass ${REDIS_PASSWORD:-password}
       --appendonly yes
       --appendfsync everysec
       --save 900 1
@@ -38,7 +38,7 @@ services:
       - redis_data:/data
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "password", "ping"]
+      test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "${REDIS_PASSWORD:-password}", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
