@@ -1,14 +1,16 @@
 # FreeFormAPI
 
-🚀 Open Source Form Backend for Static Sites
+Бесплатный бэкенд для форм со встроенной защитой от спама
 
-## Features
-- ✅ Simple form submission via API
-- ✅ Fastify server with TypeScript
-- ✅ Self-hosted or Cloud
-- ✅ Free & Open Source
+## ✨ Возможности
+- ✅ Отправка форм через API
+- ✅ Защита от спама (rate limiting + honeypot)
+- ✅ Fastify сервер на TypeScript
+- ✅ Self-hosted или облачный хостинг
+- ✅ PostgreSQL + Redis
+- ✅ Docker для простого деплоя
 
-## Quick Start
+## 🚀 Быстрый старт
 ```bash
 git clone https://github.com/FreeFormAPI/FreeFormAPI
 cd FreeFormAPI/packages/backend
@@ -17,12 +19,11 @@ npm run dev
 ```
 
 ## API
-
-# Проверка
+### Проверка сервера
 ```bash
 curl http://localhost:3000/health
 ```
-# Отправка формы
+### Отправка формы
 ```bash
 curl -X POST http://localhost:3000/api/submit \
   -H "Content-Type: application/json" \
@@ -32,15 +33,8 @@ curl -X POST http://localhost:3000/api/submit \
     "message": "Привет!"
   }'
 ```
-## ВОЗМОЖНОСТИ
-Rate limiting (10 запросов/час)
-Honeypot защита от спама
-Валидация данных (Zod)
-PostgreSQL + Redis
-TypeScript + Docker
 
-## DEPLOY
-# На VPS:
+## Деплой на VPS
 ```bash
 git clone https://github.com/FreeFormAPI/FreeFormAPI.git
 cd FreeFormAPI/docker
@@ -48,3 +42,4 @@ docker-compose -f docker-compose.prod.yml up -d
 ```
 ## Поддержка
 GitHub Issues: https://github.com/FreeFormAPI/FreeFormAPI/issues
+Сайт: freeformapi.ru (скоро)
