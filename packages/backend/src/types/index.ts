@@ -88,6 +88,21 @@ export interface NewSession {
   createdAt: string;
 }
 
+/**
+ * Безопасные данные сессии для ответа клиенту
+ */
+export interface SafeSessionData {
+  sessionId: string;
+  honeypotField: string;
+  createdAt: string;
+  lastAccess?: string | null;
+  used: boolean;
+  attempts: number;
+  expiresIn: number;
+  isValid?: boolean;
+  errorCode?: string;
+}
+
 // ==================== ЗАПРОСЫ ====================
 
 /**
