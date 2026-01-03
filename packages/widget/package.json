@@ -1,0 +1,16 @@
+{
+  "name": "@freeformapi/widget",
+  "version": "1.0.0",
+  "description": "JavaScript widget for FreeFormAPI forms",
+  "main": "widget.js",
+  "scripts": {
+    "build": "terser widget.js -o widget.min.js --compress --mangle",
+    "test": "echo \"Open test.html in browser\""
+  },
+  "keywords": ["forms", "api", "widget", "freeform"],
+  "author": "FreeFormAPI Team",
+  "license": "MIT",
+  "devDependencies": {
+    "terser": "^5.0.0"
+  }
+}

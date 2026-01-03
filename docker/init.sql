@@ -24,6 +24,9 @@ CREATE TABLE IF NOT EXISTS form_submissions (
     status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'processed', 'failed', 'blocked')),
     processed_at TIMESTAMPTZ,
     
+    -- Поле для метаданных
+    metadata JSONB DEFAULT '{}'::jsonb,
+
     -- Технические поля
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
