@@ -10,6 +10,6 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "tests/integration/middleware/rate-limit.test.ts"],
   "exclude": ["node_modules", "dist"]
 }

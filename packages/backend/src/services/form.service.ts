@@ -29,7 +29,7 @@ export class FormService {
   constructor(
     private sessionService: SessionService,
     private databaseService: DatabaseService
-  ) {}
+  ) { }
 
   /**
    * Обрабатывает отправку формы
@@ -51,12 +51,12 @@ export class FormService {
 
     // 1. Получаем сессию
     const session = await this.sessionService.getSession(request._sessionId);
-    
+
     // 2. Проверяем сессию
     const sessionValidation = this.sessionService.validateSession(request._sessionId, session);
     if (!sessionValidation.valid) {
       await this.sessionService.incrementAttempts(request._sessionId);
-      
+
       return {
         success: false,
         message: sessionValidation.message || 'Ошибка сессии',
@@ -70,10 +70,10 @@ export class FormService {
     // 3. Проверяем honeypot (если включено)
     if (SECURITY_CONFIG.HONEYPOT_ENABLED) {
       const isSpam = this.sessionService.checkHoneypotSpam(request, session!);
-      
+
       if (isSpam) {
         console.log(`🚨 ОБНАРУЖЕН СПАМ! Сессия: ${request._sessionId}, IP: ${clientIp}`);
-        
+
         // Сохраняем как спам
         const spamData: FormSubmissionData = {
           formId: request.formId || 'unknown',
@@ -113,7 +113,7 @@ export class FormService {
     const validation = this.validateFormData(request, session!);
     if (!validation.success) {
       await this.sessionService.incrementAttempts(request._sessionId);
-      
+
       return {
         success: false,
         message: 'Ошибка валидации данных',
@@ -143,6 +143,9 @@ export class FormService {
     try {
       const submission = await this.databaseService.saveFormSubmission(formData);
 
+      // ПОМЕЧАЕМ СЕССИЮ ТОЛЬКО ПОСЛЕ УСПЕШНОГО СОХРАНЕНИЯ
+      await this.sessionService.markSessionAsUsed(request._sessionId, clientIp, userAgent);
+
       console.log('📨 Форма успешно сохранена:', {
         id: submission.id,
         sessionId: request._sessionId,
@@ -159,7 +162,7 @@ export class FormService {
 
     } catch (error) {
       console.error('❌ Ошибка сохранения формы:', error);
-      
+
       return {
         success: false,
         message: 'Внутренняя ошибка сервера при сохранении формы'
@@ -209,9 +212,9 @@ export class FormService {
 
     // Проверка honeypot поля (должно быть пустым или отсутствовать)
     if (data[session.honeypotField] && data[session.honeypotField].toString().trim() !== '') {
-      errors.push({ 
-        field: session.honeypotField, 
-        message: 'Это поле должно быть пустым' 
+      errors.push({
+        field: session.honeypotField,
+        message: 'Это поле должно быть пустым'
       });
     }
 
